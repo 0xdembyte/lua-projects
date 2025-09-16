@@ -1,20 +1,20 @@
 -- SOURCES:
 -- https://www.baeldung.com/cs/binary-tree-max-heapify
 -- https://datastructures.maximal.io/heaps/heap-priority-queue/
-local Heap = {}
-Heap.__index = Heap
+local MinHeap = {}
+MinHeap.__index = MinHeap
 
-function Heap.new()
-    local self = setmetatable({}, Heap)
+function MinHeap.new()
+    local self = setmetatable({}, MinHeap)
     self.elements = {}
     return self
 end
 
-function Heap:MaxElement()
+function MinHeap:MaxElement()
     return self.elements[1]
 end
 
-function Heap:RemoveMaxElement()
+function MinHeap:RemoveMaxElement()
     local max = self:MaxElement()
     self.elements[1] = self.elements[#self.elements]
     table.remove(self.elements)
@@ -22,7 +22,7 @@ function Heap:RemoveMaxElement()
     return max
 end
 
-function Heap:MaxHeapify(index)
+function MinHeap:MaxHeapify(index)
     local largest = index
     local left  = 2 * index
     local right = 2 * index + 1
@@ -41,11 +41,11 @@ function Heap:MaxHeapify(index)
     end
 end
 
-function Heap:Parent(i)
+function MinHeap:Parent(i)
     return math.floor(i / 2)
 end
 
-function Heap:IncreaseKey(index, key)
+function MinHeap:IncreaseKey(index, key)
     if not self.elements[index] then return end
     assert(key >= self.elements[index], "new key is smaller than current key")
     self.elements[index] = key
@@ -55,14 +55,13 @@ function Heap:IncreaseKey(index, key)
     end
 end
 
-function Heap:Insert(key)
+function MinHeap:Insert(key)
     table.insert(self.elements, -math.huge)
     self:IncreaseKey(#self.elements, key)
 end
 
-function Heap:Swap(index, new)
-    self.elements[index] = self.elements[new]
-    self.elements[index] = self.elements[new]
+function MinHeap:Swap(index, new)
+	self.elements[index], self.elements[new] = self.elements[new], self.elements[index]
 end
 
-return Heap
+return MinHeap
